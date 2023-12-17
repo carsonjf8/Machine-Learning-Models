@@ -1,0 +1,13 @@
+TODO:
+    K-Means
+    Bayes
+    SVM
+    Logistic Regression
+    Decision Tree
+    Perceptron
+    Neural Network
+In Progress:
+    add weighting to KNN class votes as an option
+Completed:
+    KNN
+    Setup GitHub repo
