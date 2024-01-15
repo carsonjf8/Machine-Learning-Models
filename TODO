@@ -1,13 +1,14 @@
 TODO:
-    K-Means
-    Bayes
     SVM
+    K-Means
     Logistic Regression
     Decision Tree
     Perceptron
     Neural Network
-In Progress:
     add weighting to KNN class votes as an option
+    enable Naive Bayes to handle categorical data
+In Progress:
 Completed:
-    KNN
     Setup GitHub repo
+    KNN
+    Naive Bayes
