@@ -8,9 +8,9 @@ class Naive_Bayes:
     def train(self, x_train, y_train):
         self.x_train = x_train # training data (N, F)
         self.y_train = y_train # training labels (N)
-        self.num_classes = np.unique(self.y_train).shape[0] # number of classes (1)
         self.num_features = self.x_train.shape[1] # number of features for each data point (1)
         self.classes, self.class_counts = np.unique(self.y_train, return_counts=True) # unique class labels (C), number of data points of each class (C)
+        self.num_classes = self.classes.shape[0] # number of classes (1)
         self.class_probabilities = np.divide(self.class_counts, np.sum(self.class_counts)) # probability of each class (C)
 
         self.id_to_class = {} # map from class id to label
