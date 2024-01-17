@@ -8,8 +8,8 @@ TODO:
     enable Naive Bayes to handle categorical data
     add multiple kernels to SVM
 In Progress:
-    SVM
 Completed:
     Setup GitHub repo
     KNN
     Naive Bayes
+    SVM

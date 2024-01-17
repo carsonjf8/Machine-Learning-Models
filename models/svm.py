@@ -19,7 +19,7 @@ class SVM:
             for (x_t, y_t) in zip(x_train, y_train): # ((1, F + 1), (1))
                 mat_product = np.matmul(x_t, self.weights.T) # (C)
 
-                # update for all weights
+                # update all weights
                 self.weights = np.subtract(self.weights, np.multiply(2 * learning_rate * regularization_constant, self.weights))
 
                 # extra update for misclassifications
