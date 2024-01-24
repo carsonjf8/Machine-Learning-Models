@@ -2,9 +2,19 @@ import numpy as np
 from scipy.stats import norm
 
 class Naive_Bayes:
+    '''
+    constructor
+    '''
     def __init__(self):
         pass
 
+    '''
+    computes statistical values for the training data
+    x_train: NumPy Array
+        training data
+    y_train: NumPy Array
+        training labels
+    '''
     def train(self, x_train, y_train):
         self.x_train = x_train # training data (N, F)
         self.y_train = y_train # training labels (N)
@@ -33,6 +43,12 @@ class Naive_Bayes:
             # calculate standard deviations for each feature
             self.class_stds[index] = np.std(class_data, axis=0)
 
+    '''
+    predict classes for the test data
+    returns class predictions
+    x_test: NumPy Array
+        data for which classes are predicted
+    '''
     def predict(self, x_test):
         # duplicate data by the number of classes
         x_test = np.expand_dims(x_test, axis=1)
@@ -48,7 +64,12 @@ class Naive_Bayes:
         class_predictions = np.array([self.id_to_class[cip] for cip in class_id_predictions])
         return class_predictions
 
-    # calculate the probability density function (PDF) for each feature in each data point
+    '''
+    calculate the probability density function (PDF) for each feature in each data point
+    returns PDF values
+    x_test: NumPy Array
+        data for which the PDF is calculated
+    '''
     def pdf(self, x_test):
         base = 1 / (np.multiply(self.class_stds, np.power(2 * np.pi, 0.5)))
         exponent = -np.divide(
