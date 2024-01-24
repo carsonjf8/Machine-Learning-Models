@@ -1,5 +1,4 @@
 TODO:
-    K-Means
     Logistic Regression
     Decision Tree
     Perceptron
@@ -13,3 +12,4 @@ Completed:
     KNN
     Naive Bayes
     SVM
+    K-Means

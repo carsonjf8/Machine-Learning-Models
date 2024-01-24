@@ -1,7 +1,7 @@
 import numpy as np
 
 def minkowski_distance(x1, x2, p=2):
-    return np.power(np.sum(np.power(np.subtract(x1, x2), p), axis=2), p)
+    return np.power(np.sum(np.power(np.subtract(x1, x2), p), axis=-1), p)
 
 def manhattan_distance(x1, x2):
     return minkowski_distance(x1, x2, 1)
