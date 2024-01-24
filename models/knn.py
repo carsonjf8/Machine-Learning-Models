@@ -5,6 +5,7 @@ from models import metrics
 
 class KNN:
     '''
+    constructor
     num_neighbors: int, default=5
         how many data points contribute to the class vote
     distance_metric: {'euclidean', 'manhattan', 'minkowski'}, default='euclidean'
