@@ -1,9 +1,25 @@
 import numpy as np
 
 class SVM:
+    '''
+    constructor
+    '''
     def __init__(self):
         pass
 
+    '''
+    fits model to training data
+    x_train: NumPy Array
+        training data
+    y_train: NumPy Array
+        training labels
+    epochs: int
+        number of iterations of the training loop
+    learning_rate: float
+        step size
+    regularization_constant: float
+        regularization parameter
+    '''
     def train(self, x_train, y_train, epochs, learning_rate, regularization_constant):
         self.x_train = x_train # training data (N, F)
         self.y_train = y_train # training labels (N)
@@ -31,6 +47,11 @@ class SVM:
                         if mat_product[class_id] > -1:
                             self.weights[class_id] = np.add(self.weights[class_id], np.multiply(-learning_rate, x_t))
 
+    '''
+    predicts classes for test data
+    x_test: NumPy Array
+        data for which classes are predicted
+    '''
     def predict(self, x_test): # (N, F)
         x_test = np.hstack((x_test, np.ones((x_test.shape[0], 1)))) # (N, F + 1)
         predictions = np.matmul(x_test, self.weights.T) # (N, C)
