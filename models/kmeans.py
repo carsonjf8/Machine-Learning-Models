@@ -4,6 +4,7 @@ from models import metrics
 
 class KMeans:
     '''
+    constructor
     num_clusters: int
         how many clusters the data should be put into
     '''
