@@ -49,6 +49,7 @@ class SVM:
 
     '''
     predicts classes for test data
+    returns class predictions
     x_test: NumPy Array
         data for which classes are predicted
     '''
