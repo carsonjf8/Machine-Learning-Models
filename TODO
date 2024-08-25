@@ -1,15 +1,10 @@
 TODO:
     Logistic Regression
-    Decision Tree
     Perceptron
-    Neural Network
     add weighting to KNN class votes as an option
     enable Naive Bayes to handle categorical data
     add multiple kernels to SVM
-In Progress:
-Completed:
-    Setup GitHub repo
-    KNN
-    Naive Bayes
-    SVM
-    K-Means
+    add K-Menas weighting and centroid initial choices
+    Convolution 2D layer
+    NN gradient clipping
+    Weight regularization

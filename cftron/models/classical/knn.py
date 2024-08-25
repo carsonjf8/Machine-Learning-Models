@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import stats
 
-from models import metrics
+from ...utils import metrics
 
 class KNN:
     '''

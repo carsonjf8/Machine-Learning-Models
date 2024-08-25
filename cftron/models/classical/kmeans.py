@@ -1,6 +1,6 @@
 import numpy as np
 from numpy.random import default_rng
-from models import metrics
+from ...utils import metrics
 
 class KMeans:
     '''

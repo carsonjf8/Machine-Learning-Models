@@ -46,4 +46,29 @@ y2: NumPy Array
 def accuracy(y1, y2):
     diff = np.subtract(y1, y2)
     return 1 - (np.count_nonzero(diff) / diff.shape[0])
+
+'''
+implementation of the entropy formula
+returns entropy
+y: NumPy Array
+    data labels
+'''
+def entropy(y):
+    return -np.sum(np.multiply(y, np.log2(y)))
+
+'''
+implementation of the information gain formula
+returns information gain
+args: NumPy Array
+    data labels subsets
+'''
+def information_gain(*args):
+    all_data = np.hstack(args)
+
+    n_data = all_data.shape[0]
+    i_gain = entropy(all_data)
+    for subset in args:
+        i_gain -= ((subset.shape[0] / n_data) * entropy(subset))
     
+    return i_gain
+
