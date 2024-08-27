@@ -1,3 +1,5 @@
+from cftron.compute_graph import ComputationGraph
+
 import numpy as np
 from enum import Enum
 
@@ -8,18 +10,50 @@ class ComputationGraph:
                                    'EXPAND_DIMS', 'SQUEEZE'])
 
     def __init__(self):
+        """
+        Class constructor.
+        """
         self.graph = {}
     
     def create_node_dict(self,
-                    type=NodeType.NONE,
-                    step=-1,
-                    operation=Operation.NONE,
-                    to_node=None,
-                    from_node_1=None,
-                    from_node_2=None,
-                    output_data=None,
-                    gradient=None,
-                    op_args=None):
+                    type: ComputationGraph.NodeType=NodeType.NONE,
+                    step: int=-1,
+                    operation: ComputationGraph.Operation=Operation.NONE,
+                    to_node: str=None,
+                    from_node_1: str=None,
+                    from_node_2: str=None,
+                    output_data: np.array=None,
+                    gradient: np.array|None=None,
+                    op_args: dict|None=None) -> dict:
+        """
+        Creates a dictionary of values describing an operation.
+
+        Parameters
+        ----------
+        type : ComputationGraph.NodeType, default = NodeType.NONE
+            Enum describing whether the node is an operation or an input.
+        step : int, default= - 1
+            Operation order number, zero ordered.
+        operation : ComputationGraph.Operation, default = Operation.NONE
+            Enum representing what operation is described by the node.
+        to_node : str, default = None
+            Node to which the output data of this node goes to.
+        from_node_1 : str, default = None
+            Node for which the output from is the input to this node. If binary operation, this is the left input.
+        from_node_2 : str, default = None
+            Node for which the output from is the right input into the operation of this node.
+        output_data : np.array, default = None
+            Output result from the operation.
+        gradient : np.array | None, default = None
+            Gradient of the final value with respect to the output data of this node. Calculated during the backward pass.
+        op_args : dict | None, default = None
+            Dictionary of arguments passed to the operation.
+        
+        Returns
+        -------
+        dict
+            Dictionary of keys and values describing an operation in the computation graph.
+        """
         return {
             'type': type,
             'step': step,
@@ -32,14 +66,57 @@ class ComputationGraph:
             'op_args': op_args
         }
 
-    def create_input_node_dict(self, data):
+    def create_input_node_dict(self, data: np.array) -> dict:
+        """
+        Creates and returns a node dictionary describing an input node.
+
+        Parameters
+        ----------
+        data : np.array
+            Input data array.
+        
+        Returns
+        -------
+        dict
+            Node dictionary describing an input value.
+        """
         return self.create_node_dict(
             type=ComputationGraph.NodeType.INPUT,
             step=0,
             operation=ComputationGraph.Operation.NONE,
             output_data=data)
 
-    def add_operation(self, op, uuid_result, data_result, uuid_1, data_1, uuid_2=None, data_2=None, op_args=None):
+    def add_operation(self,
+                      op: ComputationGraph.NodeType,
+                      uuid_result: str,
+                      data_result: np.array,
+                      uuid_1: str,
+                      data_1: np.array,
+                      uuid_2: str|None=None,
+                      data_2: np.array|None=None,
+                      op_args: dict|None=None) -> None:
+        """
+        Adds an operation to the computation graph.
+
+        Parameters
+        ----------
+        op : ComputationGraph.NodeType
+            Enum describing whether the node is an operation or an input.
+        uuid_result : str
+            UUID of the resulting node.
+        data_result : np.array
+            Output array from the operation.
+        uuid_1 : str
+            UUID of the input node to the operation. Left input UUID if the operation is binary.
+        data_1 : np.array
+            Input data to the operation. Left input data if the operation is binary.
+        uuid_2 : str | None, default = None
+            UUID of the right input to the operation.
+        data_2 : np.array | None, default = None
+            Right input data to the operation.
+        op_args : dict | None, default = None
+            Dictionary of parameters passed to the operation.
+        """
         if uuid_1 not in self.graph:
             self.graph[uuid_1] = self.create_input_node_dict(data_1)
         if uuid_2 != None and uuid_2 not in self.graph:
@@ -57,7 +134,15 @@ class ComputationGraph:
         if uuid_2 != None:
             self.graph[uuid_2]['to_node'].append(uuid_result)
 
-    def backward(self, uuid):
+    def backward(self, uuid: str) -> None:
+        """
+        Backward pass that calculates the gradients of the inputs.
+
+        Parameters
+        ----------
+        uuid : str
+            UUID of the node to calculate the gradient of.
+        """
         cur_node = self.graph[uuid]
         if np.isnan(cur_node['gradient']).any() or np.isinf(cur_node['gradient']).any():
             print(np.isnan(cur_node['gradient']).any(), np.isinf(cur_node['gradient']).any())
@@ -156,23 +241,8 @@ class ComputationGraph:
             if cur_node['step'] - 1 == self.graph[cur_node['from_node_2']]['step']:
                 self.backward(cur_node['from_node_2'])
 
-    def reset(self):
+    def reset(self) -> None:
+        """
+        Clears the computation graph.
+        """
         self.graph = {}
-    
-    def print_graph(self):
-        raise NotImplementedError
-        keys = list(self.graph.keys())
-        next_to_print = []
-        for k in keys:
-            if self.graph[k]['type'] == ComputationGraph.NodeType.INPUT:
-                next_to_print.append(k)
-        while len(next_to_print) > 0:
-            print(keys[0])
-            #for k in self.graph[keys[0]]:
-                #print(f'"{k}": {self.graph[keys[0]][k]}')
-            keys = keys[1:]
-            print()
-
-            for node_uuid in self.graph[keys[0]]['to_node']:
-                keys.append(node_uuid)
-    
