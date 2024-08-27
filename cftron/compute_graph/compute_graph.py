@@ -246,3 +246,10 @@ class ComputationGraph:
         Clears the computation graph.
         """
         self.graph = {}
+    
+    def reset_grads(self) -> None:
+        """
+        Clears all gradient values in the computation graph.
+        """
+        for key in self.graph:
+            self.graph[key]['gradient'] = np.zeros_like(self.graph[key]['output_data'])
